@@ -83,8 +83,16 @@ fn generate_birthday_item(bd_entry: &BirthdayEntry, curr_year: i32) -> XMLElemen
     let mut guid_elem = XMLElement::new("guid");
     guid_elem.add_text(format!("{}-{}-{}-{}", name, curr_year, month, day));
 
+    let date_of_birthday = Utc
+        .with_ymd_and_hms(curr_year, *month as u32, *day as u32, 0, 0, 0)
+        .unwrap();
+    let mut pub_date_elem = XMLElement::new("pubDate");
+    let pub_date_text = format!("{}", date_of_birthday.format("%a, %d %b %Y %H:%M:%S %Z"));
+    pub_date_elem.add_text(pub_date_text);
+
     item_elem.add_child(desc_elem);
     item_elem.add_child(guid_elem);
+    item_elem.add_child(pub_date_elem);
     item_elem.add_child(get_empty_link_elem());
 
     item_elem
