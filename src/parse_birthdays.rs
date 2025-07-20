@@ -1,27 +1,22 @@
-use std::fs::File;
-use std::io::Read;
-
 use crate::BirthdayEntry;
+use std::fs;
 
-pub fn parse_birthday_entries(dir: &str) -> Vec<BirthdayEntry> {
-    let mut file = File::open(dir).expect("error opening birthday entries file");
+pub fn load_birthday_entries(file_path: &str) -> Vec<BirthdayEntry> {
+    // Read the file
+    let file_content = fs::read_to_string(file_path).expect("Error reading file from path");
 
-    let mut s = Vec::new();
-    file.read_to_end(&mut s).unwrap();
-    let s = String::from_utf8(s).expect("birthdays file contains invalid utf-8");
+    // Find the "==========" separator and extract everything after it
+    let separator = "==========\n";
+    let json_content = if let Some(separator_pos) = file_content.find(separator) {
+        // Find the end of the line containing "=========="
+        &file_content[(separator_pos + separator.len())..]
+    } else {
+        // No separator found, treat entire file as JSON
+        &file_content
+    };
 
-    let mut birthdays = Vec::new();
+    let entries: Vec<BirthdayEntry> =
+        serde_json::from_str(&json_content).expect("Error loading JSON");
 
-    for line in s.split('\n') {
-        if line.is_empty() || line.starts_with("//") {
-            continue;
-        }
-
-        let month = str::parse(&line[0..=1]).expect("invalid birthday file format");
-        let day = str::parse(&line[3..=4]).expect("invalid birthday file format");
-        let name = line[6..].to_string();
-        birthdays.push(BirthdayEntry { month, day, name });
-    }
-
-    birthdays
+    entries
 }
