@@ -29,7 +29,7 @@ pub fn send_birthday_reminder(birthday: &BirthdayEntry, curr_year: i32) {
     send_email(&subject, &message).expect("Error sending email");
 }
 
-fn send_email(subject: &str, body: &str) -> Result<(), Box<dyn Error>> {
+pub fn send_email(subject: &str, body: &str) -> Result<(), Box<dyn Error>> {
     let gmail_user = std::env::var("EMAIL_ADDRESS").expect("EMAIL_ADDRESS must be set.");
     let gmail_password = std::env::var("EMAIL_PASS").expect("EMAIL_PASS must be set.");
     let to_email = std::env::var("EMAIL_RECIPIENT").expect("EMAIL_RECIPIENT must be set.");
