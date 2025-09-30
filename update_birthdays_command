@@ -1,0 +1,9 @@
+
+UPLOAD:
+scp /Users/ericwu/birthday-reminder/birthdays.json eric:~/birthday-reminder/birthdays.json
+
+
+DOWNLOAD:
+
+scp eric:~/birthday-reminder/birthdays.json /Users/ericwu/birthday-reminder/birthdays.json
+
