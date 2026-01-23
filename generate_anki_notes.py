@@ -28,5 +28,5 @@ with open(output_file, "w") as f:
         year = ""
         if "year" in entry:
             year = entry["year"]
-        f.write(f"{name},{year},{month},{day}\n")
+        f.write(f"{name},{year},{month:02d},{day:02d}\n")    # format with leading zeros
 
