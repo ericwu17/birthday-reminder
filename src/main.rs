@@ -14,7 +14,7 @@ use print_usage::print_usage;
 use test_email::test_email;
 use test_json::test_json;
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct BirthdayEntry {
     name: String,

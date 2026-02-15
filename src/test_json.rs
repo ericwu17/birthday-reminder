@@ -8,6 +8,13 @@ pub fn test_json() {
 
     println!("JSON loaded successfully.");
 
+    let mut birthdays_sorted = birthdays.clone();
+    birthdays_sorted.sort_by_key(|bday| bday.month * 100 + bday.day);
+
+    if birthdays_sorted != birthdays {
+        println!("warning: birthdays JSON is not sorted by birthday");
+    }
+
     for birthday in birthdays {
         sanity_checks(&birthday);
     }
